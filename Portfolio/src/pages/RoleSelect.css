@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'helvetica neue';
+}
+
+.role-select {
+  min-height: 100vh;
+  padding: 2rem;
+  background: #0e0e0e;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.netflix-credit {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 0.85rem;
+  color: #999;
+}
+
+
+
+.netflix-credit a {
+  color: #999;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.netflix-credit a:hover {
+  color: #ccc;
+  text-decoration: underline;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  margin-top: 7rem;
+
+}
+
+.roles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  width: 100%;
+  justify-items: center;
+}
+
+.role-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.role-card {
+  height: 200px;
+  width: 200px;
+  padding: 2rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #f9f8f8;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  cursor: pointer;
+  overflow: hidden;
+  
+}
+
+.role-card:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+.role-card__avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+}
+
+.role-card__avatar svg {
+  width: 100%;
+  height: 100%;
+}
+
+.role-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #000;
+}
+
+.role-card__description {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  text-align: center;
+  max-width: 200px;
+}
+
+.role-card--recruiter {
+  background: linear-gradient(135deg, #053f1a 0%, #8feaaf 100%);
+}
+
+.role-card--recruiter .role-card__title {
+  color: #fff;
+}
+
+.role-card--explorer {
+  background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%);
+}
+
+.role-card--explorer .role-card__title,
+.role-card--explorer .role-card__description {
+  color: #fff;
+}
+
+.role-card--writer {
+  background: linear-gradient(135deg, #d7ca14 0%, #f3f8a2 100%);
+}
+
+.role-card--writer .role-card__title,
+.role-card--writer .role-card__description {
+  color: #fff;
+}
+
+.add-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add-profile__circle {
+  width: 200px;
+  height: 200px;
+  background-color: #4a4a4a;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.add-profile__circle:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+.add-profile__icon {
+  font-size: 4rem;
+  color: #8a8a8a;
+  font-weight: 300;
+  line-height: 1;
+}

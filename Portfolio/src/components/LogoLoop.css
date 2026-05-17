@@ -1,0 +1,163 @@
+.logoloop {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.logoloop--horizontal {
+  display: flex;
+  align-items: center;
+}
+
+.logoloop--vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoloop__track {
+  display: flex;
+  align-items: center;
+  will-change: transform;
+  position: relative;
+}
+
+.logoloop--vertical .logoloop__track {
+  flex-direction: column;
+}
+
+.logoloop__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--logoloop-gap, 32px);
+}
+
+.logoloop--vertical .logoloop__list {
+  flex-direction: column;
+}
+
+.logoloop__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--logoloop-logoHeight, 28px);
+}
+
+.logoloop--vertical .logoloop__item {
+  width: var(--logoloop-logoHeight, 28px);
+  height: auto;
+}
+
+.logoloop__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+  transition: transform 0.2s ease;
+}
+
+.logoloop__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.logoloop__node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+}
+
+.logoloop__node svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.logoloop__item img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.logoloop--scale-hover .logoloop__item {
+  transition: transform 0.2s ease;
+}
+
+.logoloop--scale-hover .logoloop__track:hover .logoloop__item {
+  transform: scale(1.1);
+}
+
+.logoloop--fade {
+  position: relative;
+}
+
+.logoloop--fade::before,
+.logoloop--fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.logoloop--fade::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--logoloop-fadeColor, #fff),
+    transparent
+  );
+}
+
+.logoloop--fade::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--logoloop-fadeColor, #fff),
+    transparent
+  );
+}
+
+.logoloop--vertical.logoloop--fade::before,
+.logoloop--vertical.logoloop--fade::after {
+  width: auto;
+  height: 60px;
+  left: auto;
+  right: auto;
+}
+
+.logoloop--vertical.logoloop--fade::before {
+  top: 0;
+  bottom: auto;
+  background: linear-gradient(
+    to bottom,
+    var(--logoloop-fadeColor, #fff),
+    transparent
+  );
+}
+
+.logoloop--vertical.logoloop--fade::after {
+  top: auto;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--logoloop-fadeColor, #fff),
+    transparent
+  );
+}

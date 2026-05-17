@@ -1,0 +1,112 @@
+.carousel {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.carousel__viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.carousel__item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.3s ease;
+}
+
+.carousel__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.carousel__content {
+  padding: 2rem;
+  background: #fff;
+}
+
+.carousel__title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.carousel__description {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.carousel__button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.carousel__button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel__button:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.carousel__button--prev {
+  left: 1rem;
+}
+
+.carousel__button--next {
+  right: 1rem;
+}
+
+.carousel__indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+.carousel__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.carousel__dot:hover {
+  background: #999;
+  border-color: #999;
+}
+
+.carousel__dot--active {
+  background: #333;
+  border-color: #333;
+}
