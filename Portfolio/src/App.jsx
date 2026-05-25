@@ -36,9 +36,15 @@ function AppContent() {
   );
 }
 
+function routerBasename() {
+  const base = import.meta.env.BASE_URL;
+  if (!base || base === "/") return undefined;
+  return base.endsWith("/") ? base.slice(0, -1) : base;
+}
+
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename()}>
       <AppContent />
     </BrowserRouter>
   );
