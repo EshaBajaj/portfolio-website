@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
-import RoleSelect from "./pages/RoleSelect";
+import RoleSelect from "./pages/RoleSelect/RoleSelect";
 import RecruiterHome from "./pages/Recruiter/Home";
 import ExplorerHome from "./pages/Explorer/Home";
 import WriterHome from "./pages/Writer/Home";

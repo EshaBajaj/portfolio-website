@@ -73,14 +73,14 @@ export default function Carousel({
             onClick={handlePrev}
             aria-label="Previous slide"
           >
-            ‹
+            ΓÇ╣
           </button>
           <button
             className="carousel__button carousel__button--next"
             onClick={handleNext}
             aria-label="Next slide"
           >
-            ›
+            ΓÇ║
           </button>
 
           <div className="carousel__indicators">

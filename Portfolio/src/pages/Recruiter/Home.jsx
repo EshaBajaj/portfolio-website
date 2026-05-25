@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BsFiletypeCss, BsFiletypeHtml, BsFiletypeJs, BsGit, BsGithub } from "react-icons/bs";
 import { SiReact } from "react-icons/si";
-import LogoLoop from "../../components/LogoLoop";
-import Carousel from "../../components/Carousel";
+import LogoLoop from "./components/LogoLoop";
+import Carousel from "./components/Carousel";
 import recruiterPhoto from "../../assets/images/DSC00119.JPG";
 import "./Recruiter.css";
 
