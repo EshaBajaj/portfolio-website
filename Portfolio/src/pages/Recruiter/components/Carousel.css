@@ -40,10 +40,35 @@
 }
 
 .carousel__description {
-  margin: 0;
+  margin: 0 0 1rem;
   font-size: 0.95rem;
   color: #555;
   line-height: 1.5;
+}
+
+.carousel__image-link {
+  display: block;
+}
+
+.carousel__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.carousel__title a:hover {
+  text-decoration: underline;
+}
+
+.carousel__link {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6366f1;
+  text-decoration: none;
+}
+
+.carousel__link:hover {
+  text-decoration: underline;
 }
 
 .carousel__button {

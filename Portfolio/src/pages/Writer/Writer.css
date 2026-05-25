@@ -165,6 +165,11 @@
   letter-spacing: 0.02em;
 }
 
+.writer-hero__title em {
+  font-style: italic;
+  font-weight: 400;
+}
+
 .writer-hero__text {
   margin: 0 0 18px;
   max-width: 520px;
@@ -204,6 +209,7 @@
   font-style: italic;
   text-transform: lowercase;
   font-weight: 400;
+  display: inline-block;
 }
 
 .writer-promise__intro p {
@@ -243,14 +249,14 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 52px 24px 36px;
+  padding: 40px 18px 22px;
   border: 2px solid var(--writer-border);
   border-radius: 18px;
   text-decoration: none;
   color: var(--writer-ink);
   box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 260px;
+  min-height: 190px;
 }
 
 .writer-promise-card--static {
@@ -278,9 +284,9 @@ a.writer-promise-card:hover {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 88px;
+  width: 64px;
   height: auto;
-  transform: translate(-50%, -48%);
+  transform: translate(-50%, -45%);
   pointer-events: none;
   object-fit: contain;
 }
@@ -309,8 +315,8 @@ a.writer-promise-card:hover {
 }
 
 .writer-promise-card__label {
-  margin: 0 0 14px;
-  font-size: 1.05rem;
+  margin: 0 0 10px;
+  font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -320,8 +326,8 @@ a.writer-promise-card:hover {
 .writer-promise-card__body {
   margin: 0;
   font-family: "Libre Baskerville", Georgia, serif;
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: 0.92rem;
+  line-height: 1.5;
   max-width: 240px;
 }
 
@@ -331,8 +337,8 @@ a.writer-promise-card:hover {
 
 .writer-promise-card__arrow {
   margin-top: auto;
-  padding-top: 20px;
-  font-size: 1.25rem;
+  padding-top: 10px;
+  font-size: 1.1rem;
   line-height: 1;
 }
 

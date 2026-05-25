@@ -5,6 +5,10 @@ import { SiReact } from "react-icons/si";
 import LogoLoop from "./components/LogoLoop";
 import Carousel from "./components/Carousel";
 import recruiterPhoto from "../../assets/images/DSC00119.JPG";
+import projectImage1 from "../../assets/images/1.png";
+import projectImage2 from "../../assets/images/2.png";
+import projectImage3 from "../../assets/images/3.png";
+import projectImage4 from "../../assets/images/4.png";
 import "./Recruiter.css";
 
 export default function RecruiterHome() {
@@ -90,20 +94,34 @@ export default function RecruiterHome() {
     {
       id: 1,
       title: "Placement Portal",
-      description: "Full-stack platform to streamline internal college placements and team coordination.",
-      image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fportal-app-azure.vercel.app%2F?w=1400",
+      description:
+        "Full-stack placement platform for coordinating applications, teams, and internal college hiring workflows.",
+      href: "https://portal-app-azure.vercel.app/",
+      image: projectImage1,
     },
     {
       id: 2,
-      title: "Research & Analysis",
-      description: "DRDO memory-management mini analysis covering leaks, overflows, and dangling pointers.",
-      image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.drdo.gov.in%2F?w=1400",
+      title: "Open Source — Tiffin Fusion",
+      description:
+        "Open source contribution to a food delivery app: menu flows, meal plans, and community-focused tiffin ordering.",
+      href: "https://saismrutiranjan18.github.io/Tiffin_Fusion/",
+      image: projectImage2,
     },
     {
       id: 3,
-      title: "Data Analytics Simulation",
-      description: "Forage + Deloitte workflow with Excel classification and Tableau-based reporting.",
-      image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.tableau.com%2F?w=1400",
+      title: "EduPort — Educational Platform",
+      description:
+        "A static educational marketplace showcasing courses, instructors, and student-focused learning content.",
+      href: "https://luminous-manatee-4962a0.netlify.app/",
+      image: projectImage3,
+    },
+    {
+      id: 4,
+      title: "Memory Visualizer",
+      description:
+        "Checks potential memory leaks and visualizes how space is used in memory—heap, stack, and allocation maps for safer debugging.",
+      href: "https://memory-visualizer01.vercel.app/",
+      image: projectImage4,
     },
   ];
 

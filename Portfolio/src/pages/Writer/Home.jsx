@@ -8,15 +8,15 @@ import "./Writer.css";
 const CARD_COLORS = ["lavender", "lime", "sky"];
 
 const PROMISE_CARDS = [
-  { color: "lavender", title: "MY STYLE?", text: "Bold and colorful, but still strategic." },
-  { color: "lime", title: "MY PROCESS?", text: "Fast, fun, and stress-free." },
-  { color: "sky", title: "MY MISSION?", text: "To make sure you have stories you love sharing." },
+  { color: "lavender", title: "YOUR VISION?", text: "I research, ideate, and create content that resonates with your audience and aligns with your brand's values." },
+  { color: "lime", title: "MY PROCESS?", text: "Fast, fun, and stress-free for You, with regular check-ins to ensure we're on track." },
+  { color: "sky", title: "END RESULT?", text: "Make an engaging audience connection that drives results and I get paid for my work!" },
 ];
 
 const JOURNEY = [
-  { year: "2023", script: "started writing", text: "Began sharing notes, drafts, and ideas in public.", side: "right" },
-  { year: "2024", script: "found my lane", text: "Moved from scattered posts to intentional essays.", side: "left" },
-  { year: "2025", script: "building this space", text: "This writer page is home base for essays and notes.", side: "right" },
+  { year: "2023", script: "Volunteered Writing", text: "Began sharing ideas and stories for a Youtube Channel (Peepal FArm Toons)", side: "right" },
+  { year: "2025", script: "Content Writer and Strategist", text: "Worked in a startup Vertical generating content for customer acquisition and retention(Sheriyans Coding School)", side: "left" },
+  { year: "2026", script: "building this space", text: "Building this personal project ,giving creative Freedom to the Writer in me ", side: "right" },
 ];
 
 function shortText(text, max = 110) {
@@ -83,14 +83,14 @@ export default function Home() {
             ↘
           </span>
           <h1 className="writer-hero__title">
-            I traded <strong>QUICK</strong> content for{" "}
-            <span className="writer-hero__title-serif">TIMELESS STORIES</span>
+          I create <span className="writer-hero__title-serif">TIMELESS STORIES</span>{" "}
+            <em>for</em> <strong>retention, recall,</strong> and{" "}
+            <strong>real audience connection</strong>
+            
           </h1>
           <p className="writer-hero__text">
-            This is my writer lane—essays, notes, and posts in my own voice. Same playful
-            cards, same bird, same energy as the brand boards that inspired this page.
+            This is my writer lane
           </p>
-          <p className="writer-hero__closing">THAT&apos;S WHEN I FELL IN LOVE WITH WRITING.</p>
         </div>
       </section>
 
@@ -101,12 +101,8 @@ export default function Home() {
           </h2>
           <div className="writer-promise__intro">
             <p>
-              Clean layouts, hand-drawn energy, and cards that feel like stationery—not
-              another generic blog grid.
+              How do I Approach Writing 
             </p>
-            <a className="writer-promise__cta" href="#blogs">
-              READ BLOGS
-            </a>
           </div>
         </div>
         <div className="writer-promise__grid">
@@ -178,7 +174,7 @@ export default function Home() {
 
       <footer className="writer-footer">
         <Link to="/" className="writer-footer__back">
-          ← Back to profiles
+           Back to profiles
         </Link>
       </footer>
     </div>

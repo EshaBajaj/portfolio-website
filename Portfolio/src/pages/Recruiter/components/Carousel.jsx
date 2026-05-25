@@ -57,11 +57,40 @@ export default function Carousel({
           style={itemStyle}
         >
           {currentItem.image && (
-            <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
+            currentItem.href ? (
+              <a
+                href={currentItem.href}
+                target="_blank"
+                rel="noreferrer"
+                className="carousel__image-link"
+              >
+                <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
+              </a>
+            ) : (
+              <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
+            )
           )}
           <div className="carousel__content">
-            <h3 className="carousel__title">{currentItem.title}</h3>
+            <h3 className="carousel__title">
+              {currentItem.href ? (
+                <a href={currentItem.href} target="_blank" rel="noreferrer">
+                  {currentItem.title}
+                </a>
+              ) : (
+                currentItem.title
+              )}
+            </h3>
             <p className="carousel__description">{currentItem.description}</p>
+            {currentItem.href && (
+              <a
+                href={currentItem.href}
+                target="_blank"
+                rel="noreferrer"
+                className="carousel__link"
+              >
+                View live site →
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -73,14 +102,14 @@ export default function Carousel({
             onClick={handlePrev}
             aria-label="Previous slide"
           >
-            ΓÇ╣
+            ‹
           </button>
           <button
             className="carousel__button carousel__button--next"
             onClick={handleNext}
             aria-label="Next slide"
           >
-            ΓÇ║
+            ›
           </button>
 
           <div className="carousel__indicators">
