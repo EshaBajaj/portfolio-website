@@ -3,4 +3,14 @@ import { createClient } from '@supabase/supabase-js';
 const VITE_SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const VITE_SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-export const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY);
+const hasSupabaseConfig = Boolean(VITE_SUPABASE_URL && VITE_SUPABASE_PUBLISHABLE_KEY);
+
+if (!hasSupabaseConfig) {
+  console.warn(
+    "Supabase config missing: set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in .env.local"
+  );
+}
+
+export const supabase = hasSupabaseConfig
+  ? createClient(VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY)
+  : null;

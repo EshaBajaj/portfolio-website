@@ -11,7 +11,17 @@ const PROFILES = [
 export default function RoleSelect() {
   return (
     <div className="role-select">
-      <h1>Who&apos;s watching?</h1>
+      <div className="role-select__brand">
+        <span className="role-select__netflix" aria-hidden="true">
+          NETFLIX
+        </span>
+        <span className="role-select__signature">Esha Bajaj</span>
+      </div>
+
+      <div className="role-select__heading">
+        <h1>Who&apos;s watching?</h1>
+        <p className="role-select__tagline">(because I have personalities)</p>
+      </div>
 
       <div className="roles">
         {PROFILES.map((profile) => (

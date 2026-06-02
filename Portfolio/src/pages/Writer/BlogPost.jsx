@@ -11,6 +11,12 @@ export default function BlogPost() {
 
   useEffect(() => {
     if (!postId) return;
+    if (!supabase) {
+      setError("Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.");
+      setPost(null);
+      setLoading(false);
+      return;
+    }
 
     setLoading(true);
     setError(null);

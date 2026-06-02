@@ -12,6 +12,7 @@ import projectImage4 from "../../assets/images/4.png";
 import "./Recruiter.css";
 
 export default function RecruiterHome() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -129,12 +130,23 @@ export default function RecruiterHome() {
     <div className="recruiter-portfolio">
       <nav className="recruiter-nav">
         <Link to="/" className="recruiter-nav__logo">Portfolio</Link>
-        <div className="recruiter-nav__links">
-          <a href="#about">About</a>
-          <a href="#resume">Projects</a>
-          <a href="#skills">Skills</a>
-          <a href="https://esha-bajaj-resume.tiiny.site/?mode=suggestions" target="_blank" rel="noreferrer">Resume</a>
-          <a href="#contact" className="recruiter-nav__cta">Contact</a>
+        <button
+          type="button"
+          className={`recruiter-nav__toggle ${menuOpen ? "is-open" : ""}`}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <div className={`recruiter-nav__links ${menuOpen ? "is-open" : ""}`}>
+          <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+          <a href="#resume" onClick={() => setMenuOpen(false)}>Projects</a>
+          <a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a>
+          <a href="https://esha-bajaj-resume.tiiny.site/?mode=suggestions" target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Resume</a>
+          <a href="#contact" className="recruiter-nav__cta" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>
       </nav>
 

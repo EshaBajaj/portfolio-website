@@ -1,11 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../supabase";
 import BirdCard from "./components/BirdCard";
 import birdImg from "./assets/flying-bird.png";
+import peepalFarmsImg from "../../assets/images/peepalFarms.png";
+import sheriyansImg from "../../assets/images/sheriyans.png";
 import "./Writer.css";
 
 const CARD_COLORS = ["lavender", "lime", "sky"];
+
+/** Assign card colors so neighbors (and same grid column) never match. */
+function assignAlternatingColors(count) {
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    const avoid = new Set();
+    if (i > 0) avoid.add(colors[i - 1]);
+    if (i >= 3) avoid.add(colors[i - 3]);
+    const pick = CARD_COLORS.find((c) => !avoid.has(c)) ?? CARD_COLORS[i % CARD_COLORS.length];
+    colors.push(pick);
+  }
+  return colors;
+}
 
 const PROMISE_CARDS = [
   { color: "lavender", title: "YOUR VISION?", text: "I research, ideate, and create content that resonates with your audience and aligns with your brand's values." },
@@ -14,9 +29,9 @@ const PROMISE_CARDS = [
 ];
 
 const JOURNEY = [
-  { year: "2023", script: "Volunteered Writing", text: "Began sharing ideas and stories for a Youtube Channel (Peepal FArm Toons)", side: "right" },
-  { year: "2025", script: "Content Writer and Strategist", text: "Worked in a startup Vertical generating content for customer acquisition and retention(Sheriyans Coding School)", side: "left" },
-  { year: "2026", script: "building this space", text: "Building this personal project ,giving creative Freedom to the Writer in me ", side: "right" },
+  { year: "2023", script: "Volunteered Writing", text: "Began sharing ideas and stories for a Youtube Channel (Peepal FArm Toons)", side: "right", image: peepalFarmsImg, imageAlt: "Peepal Farm Toons" },
+  { year: "2025", script: "Content Writer and Strategist", text: "Worked in a startup Vertical generating content for customer acquisition and retention(Sheriyans Coding School)", side: "left", image: sheriyansImg, imageAlt: "Sheriyans Coding School" },
+  { year: "2026", script: "building this space", text: "Building this personal project ,giving creative Freedom to the Writer in me ", side: "right", image: birdImg, imageAlt: "" },
 ];
 
 function shortText(text, max = 110) {
@@ -36,8 +51,20 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const postColors = useMemo(
+    () => assignAlternatingColors(posts.length),
+    [posts.length]
+  );
 
   useEffect(() => {
+    if (!supabase) {
+      setError("Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.");
+      setPosts([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
     supabase
@@ -62,11 +89,22 @@ export default function Home() {
         <Link to="/" className="writer-nav__logo">
           Portfolio
         </Link>
-        <nav className="writer-nav__links">
-          <a href="#about">About</a>
-          <a href="#promise">Promise</a>
-          <a href="#blogs">Blogs</a>
-          <a href="#journey">Journey</a>
+        <button
+          type="button"
+          className={`writer-nav__toggle ${menuOpen ? "is-open" : ""}`}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav className={`writer-nav__links ${menuOpen ? "is-open" : ""}`}>
+          <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+          <a href="#promise" onClick={() => setMenuOpen(false)}>Promise</a>
+          <a href="#blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
+          <a href="#journey" onClick={() => setMenuOpen(false)}>Journey</a>
         </nav>
       </header>
 
@@ -141,8 +179,9 @@ export default function Home() {
                 href={`/writer/${post.id}`}
                 title={post.title}
                 text={shortText(post.content)}
-                color={CARD_COLORS[i % CARD_COLORS.length]}
+                color={postColors[i]}
                 date={formatDate(post.created_at)}
+                imageUrl={post.image_url}
               />
             ))}
           </div>
@@ -165,7 +204,11 @@ export default function Home() {
                 <p className="writer-journey__text">{item.text}</p>
               </div>
               <div className="writer-journey__media">
-                <img src={birdImg} alt="" className="writer-journey__thumb" />
+                <img
+                  src={item.image}
+                  alt={item.imageAlt}
+                  className={`writer-journey__thumb ${item.year !== "2026" ? "writer-journey__thumb--logo" : ""}`}
+                />
               </div>
             </article>
           ))}
