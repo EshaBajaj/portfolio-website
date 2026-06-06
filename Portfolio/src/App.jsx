@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import RoleSelect from "./pages/RoleSelect/RoleSelect";
 import RecruiterHome from "./pages/Recruiter/Home";
@@ -31,6 +31,7 @@ function AppContent() {
         <Route path="/explorer" element={<ExplorerHome />} />
         <Route path="/writer" element={<WriterHome />} />
         <Route path="/writer/:postId" element={<BlogPost />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

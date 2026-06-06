@@ -22,7 +22,12 @@ Create `Portfolio/.env.local` (not committed) with:
 ```
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
+
+Contact form emails are sent via [EmailJS](https://www.emailjs.com/). Template variables used: `from_name`, `from_email`, `reply_to`, `service`, `message`, `subject`.
 
 ## Deploy on Vercel
 
@@ -31,6 +36,9 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 3. Add environment variables (Production + Preview):
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_PUBLISHABLE_KEY`
+   - `VITE_EMAILJS_SERVICE_ID`
+   - `VITE_EMAILJS_TEMPLATE_ID`
+   - `VITE_EMAILJS_PUBLIC_KEY`
 4. Deploy. Vercel runs `npm run build` and serves `dist/`.
 
 After changing env vars, trigger a redeploy so Vite picks them up at build time.

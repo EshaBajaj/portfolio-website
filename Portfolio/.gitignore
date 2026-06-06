@@ -1,18 +1,14 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
 node_modules
 dist
 dist-ssr
-*.local
+
+# Env files with secrets — never commit
 .env
-# Editor directories and files
+.env.*
+!.env.example
+*.local
+
+# Logs
 .vscode/*
 !.vscode/extensions.json
 .idea

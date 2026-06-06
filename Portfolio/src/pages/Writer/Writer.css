@@ -145,9 +145,11 @@
   box-shadow: 8px 12px 0 rgba(0, 0, 0, 0.06);
 }
 
-.writer-hero__photo-placeholder {
-  width: 72%;
-  opacity: 0.92;
+.writer-hero__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .writer-hero__script {

@@ -4,6 +4,7 @@ import { BsFiletypeCss, BsFiletypeHtml, BsFiletypeJs, BsGit, BsGithub } from "re
 import { SiReact } from "react-icons/si";
 import LogoLoop from "./components/LogoLoop";
 import Carousel from "./components/Carousel";
+import { submitContactForm } from "../../lib/submitContactForm";
 import recruiterPhoto from "../../assets/images/DSC00119.JPG";
 import projectImage1 from "../../assets/images/1.png";
 import projectImage2 from "../../assets/images/2.png";
@@ -25,32 +26,12 @@ export default function RecruiterHome() {
     e.preventDefault();
     setSubmitStatus({ type: "sending", message: "Sending your request..." });
 
-    try {
-      const formData = new FormData();
-      formData.append("name", contactForm.name);
-      formData.append("email", contactForm.email);
-      formData.append("service", contactForm.service || "Not specified");
-      formData.append("message", contactForm.message);
-      formData.append("_subject", `Portfolio inquiry${contactForm.service ? `: ${contactForm.service}` : ""}`);
-      formData.append("_replyto", contactForm.email);
-      formData.append("_captcha", "false");
+    const result = await submitContactForm(contactForm);
 
-      const response = await fetch("https://formsubmit.co/ajax/eshabajaj1626@gmail.com", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
-      });
-
-      const result = await response.json();
-      if (!response.ok || result.success === "false") {
-        throw new Error("Submission failed");
-      }
-
+    if (result.ok) {
       setSubmitStatus({
         type: "success",
-        message: "Request sent. Please check your inbox (and spam) for incoming messages.",
+        message: result.message,
       });
       setContactForm({
         name: "",
@@ -58,12 +39,13 @@ export default function RecruiterHome() {
         service: "",
         message: "",
       });
-    } catch {
-      setSubmitStatus({
-        type: "error",
-        message: "Could not send request right now. Please try again in a moment.",
-      });
+      return;
     }
+
+    setSubmitStatus({
+      type: "error",
+      message: result.message,
+    });
   };
 
   const postmanIcon = (
@@ -143,7 +125,7 @@ export default function RecruiterHome() {
         </button>
         <div className={`recruiter-nav__links ${menuOpen ? "is-open" : ""}`}>
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <a href="#resume" onClick={() => setMenuOpen(false)}>Projects</a>
+          <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
           <a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a>
           <a href="https://esha-bajaj-resume.tiiny.site/?mode=suggestions" target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Resume</a>
           <a href="#contact" className="recruiter-nav__cta" onClick={() => setMenuOpen(false)}>Contact</a>
@@ -227,7 +209,7 @@ export default function RecruiterHome() {
           </div>
         </div>
 
-        <div className="recruiter-resume__block recruiter-resume__block--projects">
+        <div className="recruiter-resume__block recruiter-resume__block--projects" id="projects">
           <h2 className="recruiter-resume__heading recruiter-projects__heading">Projects</h2>
           <div className="recruiter-projects-carousel">
             <Carousel

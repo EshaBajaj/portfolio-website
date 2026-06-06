@@ -57,35 +57,16 @@ export default function Carousel({
           style={itemStyle}
         >
           {currentItem.image && (
-            currentItem.href ? (
-              <a
-                href={currentItem.href}
-                target="_blank"
-                rel="noreferrer"
-                className="carousel__image-link"
-              >
-                <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
-              </a>
-            ) : (
-              <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
-            )
+            <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
           )}
           <div className="carousel__content">
-            <h3 className="carousel__title">
-              {currentItem.href ? (
-                <a href={currentItem.href} target="_blank" rel="noreferrer">
-                  {currentItem.title}
-                </a>
-              ) : (
-                currentItem.title
-              )}
-            </h3>
+            <h3 className="carousel__title">{currentItem.title}</h3>
             <p className="carousel__description">{currentItem.description}</p>
             {currentItem.href && (
               <a
                 href={currentItem.href}
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
                 className="carousel__link"
               >
                 View live site →
@@ -98,6 +79,7 @@ export default function Carousel({
       {items.length > 1 && (
         <>
           <button
+            type="button"
             className="carousel__button carousel__button--prev"
             onClick={handlePrev}
             aria-label="Previous slide"
@@ -105,6 +87,7 @@ export default function Carousel({
             ‹
           </button>
           <button
+            type="button"
             className="carousel__button carousel__button--next"
             onClick={handleNext}
             aria-label="Next slide"
@@ -116,6 +99,7 @@ export default function Carousel({
             {items.map((_, idx) => (
               <button
                 key={idx}
+                type="button"
                 className={`carousel__dot ${idx === currentIndex ? "carousel__dot--active" : ""}`}
                 onClick={() => setCurrentIndex(idx)}
                 aria-label={`Go to slide ${idx + 1}`}

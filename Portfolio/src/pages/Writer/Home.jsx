@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../../supabase";
 import BirdCard from "./components/BirdCard";
 import birdImg from "./assets/flying-bird.png";
+import writerImg from "../../assets/images/writer.JPG";
 import peepalFarmsImg from "../../assets/images/peepalFarms.png";
 import sheriyansImg from "../../assets/images/sheriyans.png";
 import "./Writer.css";
@@ -112,7 +113,7 @@ export default function Home() {
         <div className="writer-hero__visual">
           <div className="writer-hero__scallop" aria-hidden="true" />
           <div className="writer-hero__photo-frame">
-            <img src={birdImg} alt="" className="writer-hero__photo-placeholder" />
+            <img src={writerImg} alt="Esha Bajaj" className="writer-hero__photo" />
           </div>
           <p className="writer-hero__script">SECRET! I don&apos;t ask ChatGPT to write</p>
         </div>
