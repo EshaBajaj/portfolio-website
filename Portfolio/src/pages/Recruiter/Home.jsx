@@ -12,6 +12,9 @@ import projectImage3 from "../../assets/images/3.png";
 import projectImage4 from "../../assets/images/4.png";
 import "./Recruiter.css";
 
+const RESUME_URL =
+  "https://drive.google.com/file/d/1ysMMRLlJBDI2LUq1ilYLKQaPdS-1vezi/view?usp=sharing";
+
 export default function RecruiterHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactForm, setContactForm] = useState({
@@ -127,7 +130,7 @@ export default function RecruiterHome() {
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
           <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
           <a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a>
-          <a href="https://esha-bajaj-resume.tiiny.site/?mode=suggestions" target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Resume</a>
+          <a href={RESUME_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Resume</a>
           <a href="#contact" className="recruiter-nav__cta" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>
       </nav>
@@ -142,7 +145,7 @@ export default function RecruiterHome() {
 
           <a
             className="recruiter-about__resume-link"
-            href="https://esha-bajaj-resume.tiiny.site/?mode=suggestions"
+            href={RESUME_URL}
             target="_blank"
             rel="noreferrer"
           >

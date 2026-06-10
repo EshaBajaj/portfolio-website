@@ -17,6 +17,8 @@ npm install
 npm run dev
 ```
 
+Dev server runs at **http://localhost:5180/** (dedicated port — do not use 5173, which may be another project).
+
 Create `Portfolio/.env.local` (not committed) with:
 
 ```
