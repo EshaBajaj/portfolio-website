@@ -74,12 +74,31 @@ export default function Home() {
       .order("created_at", { ascending: false })
       .then(({ data, error: dbError }) => {
         if (dbError) {
-          setError(dbError.message);
+          const msg = dbError.message || "";
+          const isNetwork =
+            /failed to fetch|fetch failed|network|enotfound|load failed/i.test(msg) ||
+            /failed to fetch|fetch failed|network|enotfound|load failed/i.test(
+              String(dbError.details || "")
+            );
+          setError(
+            isNetwork
+              ? "Could not reach Supabase. Check that your project is running and VITE_SUPABASE_URL in .env.local is correct, then restart npm run dev."
+              : msg
+          );
           setPosts([]);
         } else {
           setPosts(data || []);
           setError(null);
         }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(
+          err?.message?.includes("fetch")
+            ? "Could not reach Supabase. Check that your project is running and VITE_SUPABASE_URL in .env.local is correct, then restart npm run dev."
+            : err?.message || "Failed to load posts."
+        );
+        setPosts([]);
         setLoading(false);
       });
   }, []);

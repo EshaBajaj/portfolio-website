@@ -13,7 +13,7 @@ import projectImage4 from "../../assets/images/4.png";
 import "./Recruiter.css";
 
 const RESUME_URL =
-  "https://drive.google.com/file/d/1ysMMRLlJBDI2LUq1ilYLKQaPdS-1vezi/view?usp=sharing";
+  "https://drive.google.com/file/d/1NuaOHyrL2AElQvGNCSTBwrYUex2ANqAd/view?usp=sharing";
 
 export default function RecruiterHome() {
   const [menuOpen, setMenuOpen] = useState(false);
