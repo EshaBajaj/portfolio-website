@@ -1,21 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { BsFiletypeCss, BsFiletypeHtml, BsFiletypeJs, BsGit, BsGithub } from "react-icons/bs";
 import { SiReact } from "react-icons/si";
 import LogoLoop from "./components/LogoLoop";
-import Carousel from "./components/Carousel";
+import DualProjectCarousel from "./components/DualProjectCarousel";
 import { submitContactForm } from "../../lib/submitContactForm";
+import { usePortfolioData } from "../../context/PortfolioDataContext";
 import recruiterPhoto from "../../assets/images/DSC00119.JPG";
-import projectImage1 from "../../assets/images/1.png";
-import projectImage2 from "../../assets/images/2.png";
-import projectImage3 from "../../assets/images/3.png";
-import projectImage4 from "../../assets/images/4.png";
 import "./Recruiter.css";
 
-const RESUME_URL =
-  "https://drive.google.com/file/d/1CFY7JI-fQ7FN015Gq3GoLCFSd-SQ0xf4/view?usp=sharing";
-
 export default function RecruiterHome() {
+  const { projects, profile, education } = usePortfolioData();
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -23,17 +18,36 @@ export default function RecruiterHome() {
     service: "",
     message: "",
   });
-  const [submitStatus, setSubmitStatus] = useState({ type: "idle", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const RESUME_URL = profile?.resumeUrl || "https://drive.google.com/file/d/1CFY7JI-fQ7FN015Gq3GoLCFSd-SQ0xf4/view?usp=sharing";
+
+  useEffect(() => {
+    if (toast && toast.type !== "sending") {
+      const timer = setTimeout(() => {
+        setToast(null);
+      }, 5500);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
-    setSubmitStatus({ type: "sending", message: "Sending your request..." });
+    setSubmitting(true);
+    setToast({
+      type: "sending",
+      title: "Sending message...",
+      message: "Delivering your note to Esha.",
+    });
 
     const result = await submitContactForm(contactForm);
+    setSubmitting(false);
 
     if (result.ok) {
-      setSubmitStatus({
+      setToast({
         type: "success",
+        title: "Thank you!",
         message: result.message,
       });
       setContactForm({
@@ -45,9 +59,11 @@ export default function RecruiterHome() {
       return;
     }
 
-    setSubmitStatus({
+    setToast({
       type: "error",
+      title: "Notice",
       message: result.message,
+      mailtoUrl: result.mailtoUrl,
     });
   };
 
@@ -65,50 +81,15 @@ export default function RecruiterHome() {
   );
 
   const skillsLogos = [
-    { node: <BsFiletypeHtml />, title: "HTML", href: "https://developer.mozilla.org/docs/Web/HTML" },
-    { node: <BsFiletypeCss />, title: "CSS", href: "https://developer.mozilla.org/docs/Web/CSS" },
-    { node: <BsFiletypeJs />, title: "JavaScript", href: "https://developer.mozilla.org/docs/Web/JavaScript" },
-    { node: <SiReact />, title: "React", href: "https://react.dev" },
+    { node: <BsFiletypeHtml />, title: "HTML5", href: "https://developer.mozilla.org/docs/Web/HTML" },
+    { node: <BsFiletypeCss />, title: "CSS3", href: "https://developer.mozilla.org/docs/Web/CSS" },
+    { node: <BsFiletypeJs />, title: "JavaScript (ES6+)", href: "https://developer.mozilla.org/docs/Web/JavaScript" },
+    { node: <SiReact />, title: "React.js", href: "https://react.dev" },
     { node: <BsGit />, title: "Git", href: "https://git-scm.com/" },
     { node: <BsGithub />, title: "GitHub", href: "https://github.com/" },
     { node: postmanIcon, title: "Postman", href: "https://www.postman.com/" },
     { node: pythonIcon, title: "Python", href: "https://www.python.org/" },
-    { node: <span className="recruiter-skill-text">n8n</span>, title: "n8n", href: "https://n8n.io/" },
-  ];
-
-  const projectCarouselItems = [
-    {
-      id: 1,
-      title: "Placement Portal",
-      description:
-        "Full-stack placement platform for coordinating applications, teams, and internal college hiring workflows.",
-      href: "https://portal-app-azure.vercel.app/",
-      image: projectImage1,
-    },
-    {
-      id: 2,
-      title: "Open Source — Tiffin Fusion",
-      description:
-        "Open source contribution to a food delivery app: menu flows, meal plans, and community-focused tiffin ordering.",
-      href: "https://saismrutiranjan18.github.io/Tiffin_Fusion/",
-      image: projectImage2,
-    },
-    {
-      id: 3,
-      title: "EduPort — Educational Platform",
-      description:
-        "A static educational marketplace showcasing courses, instructors, and student-focused learning content.",
-      href: "https://luminous-manatee-4962a0.netlify.app/",
-      image: projectImage3,
-    },
-    {
-      id: 4,
-      title: "Memory Visualizer",
-      description:
-        "Checks potential memory leaks and visualizes how space is used in memory—heap, stack, and allocation maps for safer debugging.",
-      href: "https://memory-visualizer01.vercel.app/",
-      image: projectImage4,
-    },
+    { node: <span className="recruiter-skill-text">n8n</span>, title: "n8n Automation", href: "https://n8n.io/" },
   ];
 
   return (
@@ -130,102 +111,104 @@ export default function RecruiterHome() {
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
           <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
           <a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a>
+          <a href="#education" onClick={() => setMenuOpen(false)}>Education</a>
           <a href={RESUME_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Resume</a>
           <a href="#contact" className="recruiter-nav__cta" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>
       </nav>
 
+      {/* Soothing Hero Section */}
       <section className="recruiter-section recruiter-hero" id="about">
-        <h1 className="recruiter-display-heading recruiter-display-heading--hero">Esha Bajaj</h1>
         <div className="recruiter-split recruiter-split--hero">
-        <div className="recruiter-split__content">
-          <p className="recruiter-about__bio">
-            I&apos;m a tech student currently pursuing a dual degree with IIT Patna while studying at the PW Institute of Innovation in Bangalore. I prefer learning by building and staying involved in the work I take up. I value consistency, ownership, and understanding things by working through them, rather than just knowing them on the surface.
-          </p>
+          <div className="recruiter-split__content">
+            <span className="recruiter-hero__eyebrow">Software Engineer & Student</span>
+            <h1 className="recruiter-hero__name">Esha Bajaj</h1>
+            <p className="recruiter-about__bio">
+              Building full-stack web applications, exploring low-level systems & memory tools, and specializing in AI/ML at <strong>IIT Patna</strong> while studying at the <strong>PW Institute of Innovation in Bangalore</strong>. Driven by ownership, clean code, and engineering depth.
+            </p>
 
-          <a
-            className="recruiter-about__resume-link"
-            href={RESUME_URL}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View Resume
-          </a>
+            <div className="recruiter-hero__actions">
+              <a
+                className="recruiter-hero__btn-primary"
+                href="#projects"
+              >
+                Explore Projects ↓
+              </a>
+              <a
+                className="recruiter-hero__btn-secondary"
+                href={RESUME_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View Resume ↗
+              </a>
+            </div>
+          </div>
 
-          <div className="recruiter-about__contact">
-            <div>
-              <strong>Email:</strong>
-              <a href="mailto:eshabajaj1626@gmail.com">eshabajaj1626@gmail.com</a>
+          <div className="recruiter-split__visual recruiter-split__visual--portrait">
+            <div className="recruiter-portrait-frame">
+              <img src={recruiterPhoto} alt="Esha Bajaj portrait" className="recruiter-portrait-photo" />
             </div>
           </div>
         </div>
-
-        <div className="recruiter-split__visual recruiter-split__visual--portrait">
-          <img src={recruiterPhoto} alt="Esha Bajaj portrait" className="recruiter-portrait-photo" />
-        </div>
-        </div>
       </section>
 
+      {/* Skills Loop */}
       <section className="recruiter-skills-band" id="skills" aria-label="Skills">
         <div className="recruiter-skills-band__wrap">
-          <div className="recruiter-skills-band__loop">
-            <LogoLoop
-              logos={skillsLogos}
-              speed={90}
-              direction="left"
-              logoHeight={58}
-              gap={128}
-              hoverSpeed={0}
-              scaleOnHover
-              fadeOut
-              fadeOutColor="#fafafa"
-              ariaLabel="Tech stack"
-              className="recruiter-skills-band__logoloop"
-            />
-          </div>
+          <LogoLoop
+            logos={skillsLogos}
+            speed={60}
+            direction="left"
+            logoHeight={44}
+            gap={64}
+            hoverSpeed={0}
+            scaleOnHover
+            fadeOut
+            fadeOutColor="#fafafa"
+            ariaLabel="Tech stack"
+            className="recruiter-skills-band__logoloop"
+          />
         </div>
       </section>
 
-      <section className="recruiter-resume recruiter-resume--spaced" id="resume">
-        <div className="recruiter-resume__wrap">
-        <div className="recruiter-education">
-          <h2 className="recruiter-resume__heading">Education</h2>
-          <div className="recruiter-education__timeline" role="list" aria-label="Education timeline">
-            <article className="recruiter-education__item" role="listitem">
-              <p className="recruiter-entry__date">2025 - 2027</p>
-              <h3>IIT Patna</h3>
-              <p>Bachelor of Science in AI/ML</p>
-            </article>
-            <article className="recruiter-education__item" role="listitem">
-              <p className="recruiter-entry__date">2025 - Present</p>
-              <h3>PW Institute of Innovation</h3>
-              <p>Technology Program, Bangalore</p>
-            </article>
-            <article className="recruiter-education__item" role="listitem">
-              <p className="recruiter-entry__date">2024</p>
-              <h3>Class 12th</h3>
-            </article>
-            <article className="recruiter-education__item" role="listitem">
-              <p className="recruiter-entry__date">2022</p>
-              <h3>Class 10th</h3>
-            </article>
-          </div>
+      {/* Featured Projects Section */}
+      <section className="recruiter-section recruiter-projects-section" id="projects">
+        <div className="recruiter-section__header">
+          <span className="recruiter-section__eyebrow">FEATURED WORK</span>
+          <h2 className="recruiter-section__title">Selected Projects</h2>
+          <p className="recruiter-section__subtitle">
+            Platforms, algorithms, and open-source contributions crafted with technical rigor.
+          </p>
         </div>
 
-        <div className="recruiter-resume__block recruiter-resume__block--projects" id="projects">
-          <h2 className="recruiter-resume__heading recruiter-projects__heading">Projects</h2>
-          <div className="recruiter-projects-carousel">
-            <Carousel
-              items={projectCarouselItems}
-              baseWidth={860}
-              autoplay={false}
-              autoplayDelay={3200}
-              pauseOnHover
-              loop
-              round={false}
-            />
-          </div>
+        <DualProjectCarousel projects={projects} />
+      </section>
+
+      {/* Education & Experience Section */}
+      <section className="recruiter-section recruiter-education-section" id="education">
+        <div className="recruiter-section__header">
+          <h2 className="recruiter-section__title">Education</h2>
         </div>
+
+        <div className="recruiter-education__timeline" role="list">
+          <article className="recruiter-education__card" role="listitem">
+            <span className="recruiter-education__year">2025 – 2027</span>
+            <div className="recruiter-education__info">
+              <h3>IIT Patna</h3>
+              <p className="recruiter-education__degree">Bachelor of Science in AI/ML (Dual Degree)</p>
+              <p className="recruiter-education__desc">Specializing in Machine Learning models, data structures, and algorithmic problem-solving.</p>
+            </div>
+          </article>
+
+          <article className="recruiter-education__card" role="listitem">
+            <span className="recruiter-education__year">2025 – Present</span>
+            <div className="recruiter-education__info">
+              <h3>PW Institute of Innovation</h3>
+              <p className="recruiter-education__degree">Technology Program, Bangalore</p>
+              <p className="recruiter-education__desc">Hands-on software development, full-stack web architecture, and real-world system building.</p>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -292,19 +275,9 @@ export default function RecruiterHome() {
               onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
             />
           </div>
-          <button type="submit" className="recruiter-contact-form__submit" disabled={submitStatus.type === "sending"}>
-            {submitStatus.type === "sending" ? "Sending..." : "Submit"}
+          <button type="submit" className="recruiter-contact-form__submit" disabled={submitting}>
+            {submitting ? "Sending..." : "Submit"}
           </button>
-          {submitStatus.type !== "idle" && (
-            <p
-              className={`recruiter-contact-form__status ${
-                submitStatus.type === "error" ? "recruiter-contact-form__status--error" : ""
-              }`}
-              role="status"
-            >
-              {submitStatus.message}
-            </p>
-          )}
         </form>
         <p className="recruiter-contact-cta__direct">
           Or reach me directly:{" "}
@@ -312,6 +285,35 @@ export default function RecruiterHome() {
         </p>
         </div>
       </section>
+
+      {toast && (
+        <div className={`recruiter-toast recruiter-toast--${toast.type}`} role="alert" aria-live="polite">
+          <div className="recruiter-toast__body">
+            <span className="recruiter-toast__badge">
+              {toast.type === "success" && "✨"}
+              {toast.type === "sending" && "⌛"}
+              {toast.type === "error" && "💡"}
+            </span>
+            <div className="recruiter-toast__text">
+              {toast.title && <strong className="recruiter-toast__title">{toast.title}</strong>}
+              <p className="recruiter-toast__msg">{toast.message}</p>
+            </div>
+            {toast.type === "error" && toast.mailtoUrl && (
+              <a href={toast.mailtoUrl} className="recruiter-toast__action">
+                ✉ Email Directly
+              </a>
+            )}
+            <button
+              type="button"
+              className="recruiter-toast__close"
+              onClick={() => setToast(null)}
+              aria-label="Close notification"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
 
       <footer className="recruiter-footer">
         <p className="recruiter-footer__copy">© {new Date().getFullYear()} All Rights Reserved</p>

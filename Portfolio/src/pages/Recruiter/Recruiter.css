@@ -117,89 +117,191 @@
   padding-right: clamp(0.5rem, 2vw, 1.25rem);
 }
 
-.recruiter-display-heading {
-  margin: 0 0 1rem;
-  font-family: "Bebas Neue", Impact, sans-serif;
-  letter-spacing: 0.03em;
-  font-size: clamp(2.4rem, 7vw, 5rem);
-  line-height: 0.95;
+.recruiter-hero__eyebrow {
+  display: inline-block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #0a0a0a;
+  color: #6366f1;
+  margin-bottom: 0.5rem;
 }
 
-.recruiter-about__bio,
-.recruiter-section__intro {
-  max-width: 42rem;
-  color: #3a3a3a;
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
+.recruiter-hero__name {
+  margin: 0 0 1.25rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.recruiter-about__bio {
+  max-width: 38rem;
+  color: #475569;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
   line-height: 1.65;
-  margin: 0 0 clamp(1.75rem, 3vw, 2.5rem);
+  margin: 0 0 2rem;
 }
 
-.recruiter-about__resume-link {
+.recruiter-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.recruiter-hero__btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 clamp(1.35rem, 2.6vw, 1.9rem);
-  padding: 0.72rem 1.5rem;
+  padding: 0.75rem 1.4rem;
   border-radius: 999px;
-  background: #111;
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
+  background: #0f172a;
+  color: #ffffff !important;
+  font-size: 0.92rem;
   font-weight: 600;
-  transition: opacity 0.2s, transform 0.15s;
-}
-
-.recruiter-about__resume-link:hover {
-  opacity: 0.9;
-}
-
-.recruiter-about__resume-link:active {
-  transform: scale(0.98);
-}
-
-.recruiter-about__contact {
-  display: flex;
-  gap: 2.8rem;
-  margin-top: 1.7rem;
-  flex-wrap: wrap;
-}
-
-.recruiter-about__contact strong {
-  display: block;
-  font-family: "Bebas Neue", Impact, sans-serif;
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
-}
-
-.recruiter-about__contact a {
-  color: #1c1c1c;
   text-decoration: none;
-  font-size: clamp(1rem, 1.35vw, 1.35rem);
+  transition: background 0.2s, transform 0.15s;
 }
 
-.recruiter-split__visual {
+.recruiter-hero__btn-primary:hover {
+  background: #6366f1;
+  transform: translateY(-2px);
+}
+
+.recruiter-hero__btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.recruiter-hero__btn-secondary:hover {
+  border-color: #0f172a;
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.recruiter-portrait-frame {
   position: relative;
-  border-radius: 1.35rem;
+  border-radius: 1.25rem;
   overflow: hidden;
-  min-height: min(620px, 58vh);
-}
-
-.recruiter-split__visual--portrait {
-  background: #ecece8;
-  border-left: 3px solid #111;
-  border-right: 3px solid #111;
-  padding: clamp(0.75rem, 2vw, 1.15rem) clamp(1rem, 2.8vw, 1.85rem);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 0.5rem;
 }
 
 .recruiter-portrait-photo {
   display: block;
   width: 100%;
-  height: 100%;
-  min-height: min(520px, 52vh);
+  height: clamp(340px, 42vh, 480px);
   object-fit: cover;
-  object-position: center 24%;
-  border-radius: 0.55rem;
+  object-position: center 20%;
+  border-radius: 0.9rem;
+}
+
+/* Section Headers */
+.recruiter-section__header {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.recruiter-section__eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6366f1;
+  margin-bottom: 0.35rem;
+}
+
+.recruiter-section__title {
+  margin: 0 0 0.5rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.recruiter-section__subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #64748b;
+  max-width: 32rem;
+  line-height: 1.55;
+}
+
+/* Education Timeline Cards */
+.recruiter-education__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.recruiter-education__card {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.recruiter-education__card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.recruiter-education__year {
+  font-family: "JetBrains Mono", monospace, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6366f1;
+  padding-top: 0.2rem;
+}
+
+.recruiter-education__info h3 {
+  margin: 0 0 0.25rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.recruiter-education__degree {
+  margin: 0 0 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.recruiter-education__desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .recruiter-education__card {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 }
 
 .recruiter-split__visual--workspace {
@@ -373,10 +475,59 @@
   margin-top: clamp(2.5rem, 6vw, 4rem);
 }
 
-.recruiter-projects__heading {
-  text-align: center;
-  font-size: clamp(3.2rem, 8vw, 6rem);
-  margin-bottom: clamp(0.8rem, 2vw, 1.2rem);
+/* Technical Depth Section */
+.recruiter-tech-depth {
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+
+.recruiter-tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.recruiter-tech-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 1.25rem;
+  padding: 1.6rem 1.4rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.recruiter-tech-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 12px 28px -4px rgba(99, 102, 241, 0.12);
+}
+
+.recruiter-tech-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 0.75rem;
+  background: #f1f3fe;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+
+.recruiter-tech-card h3 {
+  margin: 0 0 0.5rem;
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.recruiter-tech-card p {
+  margin: 0;
+  font-size: 0.93rem;
+  color: #4b5563;
+  line-height: 1.6;
 }
 
 .recruiter-skills-band {
@@ -803,14 +954,129 @@
   cursor: not-allowed;
 }
 
-.recruiter-contact-form__status {
-  margin: 0;
-  font-size: 1rem;
-  color: #1f2937;
+/* Toast Notification */
+.recruiter-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  max-width: 440px;
+  width: calc(100vw - 3rem);
+  background: rgba(18, 18, 20, 0.94);
+  backdrop-filter: blur(16px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.1rem;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: toastSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.recruiter-contact-form__status--error {
-  color: #b91c1c;
+@keyframes toastSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.recruiter-toast--success {
+  border-left: 4px solid #10b981;
+}
+
+.recruiter-toast--sending {
+  border-left: 4px solid #6366f1;
+}
+
+.recruiter-toast--error {
+  border-left: 4px solid #f59e0b;
+}
+
+.recruiter-toast__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  position: relative;
+}
+
+.recruiter-toast__badge {
+  font-size: 1.35rem;
+  line-height: 1;
+  padding-top: 0.1rem;
+}
+
+.recruiter-toast__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-right: 1.5rem;
+}
+
+.recruiter-toast__title {
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.recruiter-toast__msg {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #d1d5db;
+  line-height: 1.45;
+}
+
+.recruiter-toast__action {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  padding: 0.4rem 0.85rem;
+  background: var(--recruiter-accent);
+  color: #fff !important;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.recruiter-toast__action:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.recruiter-toast__close {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.recruiter-toast__close:hover {
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .recruiter-toast {
+    bottom: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    width: auto;
+    max-width: none;
+  }
 }
 
 .recruiter-contact-cta__direct {

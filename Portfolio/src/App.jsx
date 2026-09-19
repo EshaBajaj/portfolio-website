@@ -5,6 +5,9 @@ import RecruiterHome from "./pages/Recruiter/Home";
 import ExplorerHome from "./pages/Explorer/Home";
 import WriterHome from "./pages/Writer/Home";
 import BlogPost from "./pages/Writer/BlogPost";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import AdminLogin from "./pages/Admin/AdminLogin";
+import { PortfolioDataProvider } from "./context/PortfolioDataContext";
 
 import TargetCursor from "./components/Cursor/TargetCursor";
 
@@ -13,7 +16,7 @@ function AppContent() {
   const path = location.pathname;
   const useDefaultCursor =
     path === "/recruiter" || path === "/explorer" || path === "/writer" ||
-    path.startsWith("/writer/");
+    path.startsWith("/writer/") || path.startsWith("/admin");
 
   return (
     <>
@@ -31,6 +34,8 @@ function AppContent() {
         <Route path="/explorer" element={<ExplorerHome />} />
         <Route path="/writer" element={<WriterHome />} />
         <Route path="/writer/:postId" element={<BlogPost />} />
+        <Route path="/admin" element={<AdminLayout />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
@@ -45,9 +50,11 @@ function routerBasename() {
 
 function App() {
   return (
-    <BrowserRouter basename={routerBasename()}>
-      <AppContent />
-    </BrowserRouter>
+    <PortfolioDataProvider>
+      <BrowserRouter basename={routerBasename()}>
+        <AppContent />
+      </BrowserRouter>
+    </PortfolioDataProvider>
   );
 }
 

@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import { BsGithub, BsArrowUpRight, BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import "./Carousel.css";
 
 export default function Carousel({
   items = [],
-  baseWidth = 860,
+  baseWidth = 960,
   autoplay = false,
-  autoplayDelay = 3200,
-  pauseOnHover = false,
+  autoplayDelay = 4000,
+  pauseOnHover = true,
   loop = true,
-  round = false,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -38,76 +38,121 @@ export default function Carousel({
   };
 
   if (!items || items.length === 0) {
-    return <div className="carousel">No items to display</div>;
+    return <div className="carousel">No projects to display</div>;
   }
 
   const currentItem = items[currentIndex];
-  const itemStyle = round ? { borderRadius: "12px" } : {};
 
   return (
     <div
-      className="carousel"
+      className="carousel-container"
       style={{ maxWidth: `${baseWidth}px` }}
       onMouseEnter={() => pauseOnHover && setIsPaused(true)}
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
-      <div className="carousel__viewport">
-        <div
-          className="carousel__item"
-          style={itemStyle}
-        >
-          {currentItem.image && (
-            <img src={currentItem.image} alt={currentItem.title} className="carousel__image" />
+      <div className="carousel-card">
+        {/* Visual Preview Side */}
+        <div className="carousel-card__media">
+          {currentItem.category && (
+            <span className="carousel-card__badge">{currentItem.category}</span>
           )}
-          <div className="carousel__content">
-            <h3 className="carousel__title">{currentItem.title}</h3>
-            <p className="carousel__description">{currentItem.description}</p>
+          {currentItem.image ? (
+            <img
+              src={currentItem.image}
+              alt={currentItem.title}
+              className="carousel-card__img"
+            />
+          ) : (
+            <div className="carousel-card__img-placeholder">Project Preview</div>
+          )}
+        </div>
+
+        {/* Content Side */}
+        <div className="carousel-card__info">
+          <div className="carousel-card__header">
+            <span className="carousel-card__counter">
+              0{currentIndex + 1} / 0{items.length}
+            </span>
+            <h3 className="carousel-card__title">{currentItem.title}</h3>
+          </div>
+
+          <p className="carousel-card__desc">{currentItem.description}</p>
+
+          {/* Tech Stack Pills */}
+          {currentItem.tags && currentItem.tags.length > 0 && (
+            <div className="carousel-card__tags">
+              {currentItem.tags.map((tag) => (
+                <span key={tag} className="carousel-card__tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Action Links */}
+          <div className="carousel-card__actions">
             {currentItem.href && (
               <a
                 href={currentItem.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="carousel__link"
+                className="carousel-card__btn carousel-card__btn--primary"
               >
-                View live site →
+                <span>Live Demo</span>
+                <BsArrowUpRight className="carousel-card__btn-icon" />
+              </a>
+            )}
+            {currentItem.github && (
+              <a
+                href={currentItem.github}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="carousel-card__btn carousel-card__btn--secondary"
+              >
+                <BsGithub className="carousel-card__btn-icon" />
+                <span>Repository</span>
               </a>
             )}
           </div>
         </div>
       </div>
 
+      {/* Controls Bar */}
       {items.length > 1 && (
-        <>
-          <button
-            type="button"
-            className="carousel__button carousel__button--prev"
-            onClick={handlePrev}
-            aria-label="Previous slide"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            className="carousel__button carousel__button--next"
-            onClick={handleNext}
-            aria-label="Next slide"
-          >
-            ›
-          </button>
-
-          <div className="carousel__indicators">
-            {items.map((_, idx) => (
+        <div className="carousel-controls">
+          <div className="carousel-controls__dots">
+            {items.map((item, idx) => (
               <button
-                key={idx}
+                key={item.id || idx}
                 type="button"
-                className={`carousel__dot ${idx === currentIndex ? "carousel__dot--active" : ""}`}
+                className={`carousel-controls__dot ${
+                  idx === currentIndex ? "carousel-controls__dot--active" : ""
+                }`}
                 onClick={() => setCurrentIndex(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
-                aria-current={idx === currentIndex ? "true" : "false"}
+                aria-label={`Jump to project ${idx + 1}`}
               />
             ))}
           </div>
-        </>
+
+          <div className="carousel-controls__nav">
+            <button
+              type="button"
+              className="carousel-controls__btn"
+              onClick={handlePrev}
+              aria-label="Previous project"
+            >
+              <BsChevronLeft />
+            </button>
+            <button
+              type="button"
+              className="carousel-controls__btn"
+              onClick={handleNext}
+              aria-label="Next project"
+            >
+              <BsChevronRight />
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

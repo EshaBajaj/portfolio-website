@@ -15,57 +15,85 @@ function getEmailJsConfig() {
 let emailJsReady = false;
 
 function ensureEmailJsInit(publicKey) {
-  if (!emailJsReady) {
-    emailjs.init({ publicKey });
-    emailJsReady = true;
+  if (!emailJsReady && publicKey) {
+    try {
+      emailjs.init({ publicKey });
+      emailJsReady = true;
+    } catch (err) {
+      console.error("[EmailJS Init Error]:", err);
+    }
   }
 }
 
 export async function submitContactForm({ name, email, service, message }) {
   const { serviceId, templateId, publicKey } = getEmailJsConfig();
 
+  const recipientEmail = "eshabajaj1626@gmail.com";
+  const mailtoSubject = encodeURIComponent(`Portfolio Inquiry: ${service || "General"}`);
+  const mailtoBody = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\nService Requested: ${service || "Not specified"}\n\nMessage:\n${message}`
+  );
+  const fallbackMailto = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
   if (!serviceId || !templateId || !publicKey) {
+    const missing = [
+      !serviceId && "VITE_EMAILJS_SERVICE_ID",
+      !templateId && "VITE_EMAILJS_TEMPLATE_ID",
+      !publicKey && "VITE_EMAILJS_PUBLIC_KEY",
+    ].filter(Boolean);
+
+    console.error(
+      `[EmailJS Config Notice]: Contact form environment variables are missing (${missing.join(
+        ", "
+      )}). Please add them to .env.local and restart the dev server.`
+    );
+
     return {
       ok: false,
-      message:
-        "Contact form is not configured. Add VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY to .env.local, then restart the dev server.",
+      message: "Could not send message automatically right now. Please email me directly below.",
+      mailtoUrl: fallbackMailto,
     };
   }
 
   try {
     ensureEmailJsInit(publicKey);
 
-    const result = await emailjs.send(serviceId, templateId, {
+    const templateParams = {
       from_name: name,
       from_email: email,
       reply_to: email,
+      name: name,
+      email: email,
+      user_name: name,
+      user_email: email,
+      to_name: "Esha Bajaj",
       service: service || "Not specified",
-      message,
+      message: message,
       subject: `Portfolio inquiry${service ? `: ${service}` : ""}`,
-    });
+    };
+
+    const result = await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
     if (result.status === 200) {
       return {
         ok: true,
-        message: "Message sent! I'll get back to you soon.",
+        message: "Thank you! I've received your message and will reach out to you soon. ✨",
       };
     }
 
+    console.error("[EmailJS Send Non-200 Result]:", result);
     return {
       ok: false,
-      message: "Could not send your message. Please try again or email me directly.",
+      message: "Could not send message automatically right now. Feel free to email me directly below!",
+      mailtoUrl: fallbackMailto,
     };
   } catch (err) {
-    const detail = err?.text || err?.message || "";
-    const isInvalidKey = /public key is invalid/i.test(detail);
-
+    console.error("[EmailJS Submission Failure]:", err);
     return {
       ok: false,
-      message: isInvalidKey
-        ? "EmailJS Public Key is invalid. In EmailJS → Account → API Keys, copy the Public Key (not Private Key). Then in Security, turn OFF “Use Private Key”, restart npm run dev, and try again."
-        : detail
-          ? `Could not send your message: ${detail}`
-          : "Could not send your message right now. Please try again or email me directly.",
+      message: "Could not send message automatically right now. Feel free to email me directly below!",
+      mailtoUrl: fallbackMailto,
     };
   }
 }
+

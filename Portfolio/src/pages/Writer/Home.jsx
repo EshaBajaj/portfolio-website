@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../supabase";
+import { usePortfolioData } from "../../context/PortfolioDataContext";
 import BirdCard from "./components/BirdCard";
+import WriterArticleCarousel from "./components/WriterArticleCarousel";
 import birdImg from "./assets/flying-bird.png";
 import writerImg from "../../assets/images/writer.JPG";
 import peepalFarmsImg from "../../assets/images/peepalFarms.png";
@@ -42,26 +44,24 @@ function shortText(text, max = 110) {
 }
 
 function formatDate(dateString) {
-  return new Date(dateString).toLocaleDateString(undefined, {
+  if (!dateString) return "";
+  const parsed = new Date(dateString);
+  if (isNaN(parsed)) return dateString;
+  return parsed.toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
   });
 }
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  const { articles: contextArticles } = usePortfolioData();
+  const [dbPosts, setDbPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const postColors = useMemo(
-    () => assignAlternatingColors(posts.length),
-    [posts.length]
-  );
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     if (!supabase) {
-      setError("Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.");
-      setPosts([]);
       setLoading(false);
       return;
     }
@@ -72,36 +72,36 @@ export default function Home() {
       .from("blogs")
       .select("id, title, content, image_url, created_at")
       .order("created_at", { ascending: false })
-      .then(({ data, error: dbError }) => {
-        if (dbError) {
-          const msg = dbError.message || "";
-          const isNetwork =
-            /failed to fetch|fetch failed|network|enotfound|load failed/i.test(msg) ||
-            /failed to fetch|fetch failed|network|enotfound|load failed/i.test(
-              String(dbError.details || "")
-            );
-          setError(
-            isNetwork
-              ? "Could not reach Supabase. Check that your project is running and VITE_SUPABASE_URL in .env.local is correct, then restart npm run dev."
-              : msg
-          );
-          setPosts([]);
-        } else {
-          setPosts(data || []);
-          setError(null);
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          const mapped = data.map((d) => ({
+            id: d.id,
+            title: d.title,
+            content: d.content,
+            coverImage: d.image_url,
+            date: formatDate(d.created_at),
+            type: "Technical Essay",
+          }));
+          setDbPosts(mapped);
         }
         setLoading(false);
       })
-      .catch((err) => {
-        setError(
-          err?.message?.includes("fetch")
-            ? "Could not reach Supabase. Check that your project is running and VITE_SUPABASE_URL in .env.local is correct, then restart npm run dev."
-            : err?.message || "Failed to load posts."
-        );
-        setPosts([]);
+      .catch(() => {
         setLoading(false);
       });
   }, []);
+
+  // Merge DB posts with CMS Context Articles
+  const allArticles = dbPosts.length > 0 ? [...dbPosts, ...contextArticles] : contextArticles;
+
+  const filteredArticles = activeCategory === "All"
+    ? allArticles
+    : allArticles.filter((a) => a.type === activeCategory);
+
+  const postColors = useMemo(
+    () => assignAlternatingColors(filteredArticles.length),
+    [filteredArticles.length]
+  );
 
   return (
     <div className="writer-page">
@@ -123,7 +123,7 @@ export default function Home() {
         <nav className={`writer-nav__links ${menuOpen ? "is-open" : ""}`}>
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
           <a href="#promise" onClick={() => setMenuOpen(false)}>Promise</a>
-          <a href="#blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
+          <a href="#blogs" onClick={() => setMenuOpen(false)}>Writings & Work</a>
           <a href="#journey" onClick={() => setMenuOpen(false)}>Journey</a>
         </nav>
       </header>
@@ -144,7 +144,6 @@ export default function Home() {
           I create <span className="writer-hero__title-serif">TIMELESS STORIES</span>{" "}
             <em>for</em> <strong>retention, recall,</strong> and{" "}
             <strong>real audience connection</strong>
-            
           </h1>
           <p className="writer-hero__text">
             This is my writer lane
@@ -177,34 +176,39 @@ export default function Home() {
 
       <section className="writer-section writer-blogs" id="blogs">
         <div className="section-header centered">
-          <span className="section-label">From the blog</span>
-          <h2 className="section-title">Latest posts</h2>
+          <span className="section-label">PUBLISHED WRITINGS & PROJECTS</span>
+          <h2 className="section-title">Blogs & Commercials</h2>
         </div>
 
-        {loading && <p className="section-copy centered-status">Loading posts…</p>}
-        {error && (
-          <p className="section-copy centered-status writer-status--error">
-            Error loading posts: {error}
-          </p>
-        )}
-        {!loading && !error && posts.length === 0 && (
-          <p className="section-copy centered-status">No blog posts yet.</p>
-        )}
+        {/* Category Segregation Filter */}
+        <div className="writer-filter-bar">
+          <button
+            type="button"
+            className={`writer-filter-btn ${activeCategory === "All" ? "is-active" : ""}`}
+            onClick={() => setActiveCategory("All")}
+          >
+            All ({allArticles.length})
+          </button>
+          <button
+            type="button"
+            className={`writer-filter-btn ${activeCategory === "Blogs" ? "is-active" : ""}`}
+            onClick={() => setActiveCategory("Blogs")}
+          >
+            Blogs
+          </button>
+          <button
+            type="button"
+            className={`writer-filter-btn ${activeCategory === "Commercials" ? "is-active" : ""}`}
+            onClick={() => setActiveCategory("Commercials")}
+          >
+            Commercials
+          </button>
+        </div>
 
-        {!loading && !error && posts.length > 0 && (
-          <div className="writer-promise__grid writer-blogs__grid">
-            {posts.map((post, i) => (
-              <BirdCard
-                key={post.id}
-                href={`/writer/${post.id}`}
-                title={post.title}
-                text={shortText(post.content)}
-                color={postColors[i]}
-                date={formatDate(post.created_at)}
-                imageUrl={post.image_url}
-              />
-            ))}
-          </div>
+        {loading ? (
+          <p className="section-copy centered-status">Loading publications...</p>
+        ) : (
+          <WriterArticleCarousel articles={filteredArticles} />
         )}
       </section>
 

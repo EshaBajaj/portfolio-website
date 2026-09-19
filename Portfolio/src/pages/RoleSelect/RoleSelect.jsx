@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import SmileyAvatar from "./components/SmileyAvatar";
 import "./RoleSelect.css";
 
@@ -9,16 +10,30 @@ const PROFILES = [
 ];
 
 export default function RoleSelect() {
+  const [hoveringPlus, setHoveringPlus] = useState(false);
+  const navigate = useNavigate();
+
+  const handleTitleDoubleClick = () => {
+    navigate("/admin");
+  };
+
   return (
     <div className="role-select">
       <div className="role-select__brand">
         <span className="role-select__netflix" aria-hidden="true">
           NETFLIX
         </span>
-        <span className="role-select__signature">Esha Bajaj</span>
+        <span
+          className="role-select__signature"
+          title="Admin portal shortcut"
+          onDoubleClick={handleTitleDoubleClick}
+          style={{ cursor: "pointer" }}
+        >
+          Esha Bajaj
+        </span>
       </div>
 
-      <div className="role-select__heading">
+      <div className="role-select__heading" onDoubleClick={handleTitleDoubleClick}>
         <h1>Who&apos;s watching?</h1>
         <p className="role-select__tagline">(because I have personalities)</p>
       </div>
@@ -41,11 +56,33 @@ export default function RoleSelect() {
           </div>
         ))}
 
-        <div className="add-profile cursor-target">
+        {/* Netflix-style Add Profile '+' Card */}
+        <div
+          className="add-profile cursor-target"
+          onMouseEnter={() => setHoveringPlus(true)}
+          onMouseLeave={() => setHoveringPlus(false)}
+        >
           <div className="add-profile__square">
             <span className="add-profile__icon">+</span>
           </div>
           <p className="add-profile__label">Add Profile</p>
+
+          {/* Small, Stable, Subtle Note */}
+          {hoveringPlus && (
+            <div className="stable-note-tooltip">
+              <p className="stable-note-title">Can&apos;t create another me.</p>
+              <p className="stable-note-text">
+                But you can drop me a message. <br />
+                Got something in mind?{" "}
+                <a
+                  href="mailto:eshabajaj1626@gmail.com"
+                  className="stable-note-link"
+                >
+                  Let&apos;s talk.
+                </a>
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
